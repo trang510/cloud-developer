@@ -41,3 +41,14 @@ export async function updateTodo(updateTodoRequest: UpdateTodoRequest, todoId: s
 
     todoAccess.updateTodo(todoId, updateTodoRequest as TodoUpdate)
 }
+
+export async function deleteTodo(todoId: string) {
+  logger.info(`Deleting todo ${todoId}`)
+
+  const item = await todoAccess.getTodo(todoId)
+
+  if (!item)
+    throw new Error('Todo not found')
+
+    todoAccess.deleteTodo(todoId)
+}
