@@ -52,3 +52,17 @@ export async function deleteTodo(todoId: string) {
 
     todoAccess.deleteTodo(todoId)
 }
+
+export async function getUploadUrl(todoId: string): Promise<string> {
+  logger.info(`Getting Upload Url todo ${todoId}`)
+
+  const item = await todoAccess.getTodo(todoId)
+
+  if (!item)
+    throw new Error('Todo not found')
+
+  const imageId = uuid.v4()  
+  const uploadUrl = await todoAccess.getUploadUrl(todoId, imageId)
+
+  return uploadUrl
+}
