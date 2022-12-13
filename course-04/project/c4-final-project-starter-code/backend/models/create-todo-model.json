@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "group",
+  "title": "todo",
   "type": "object",
   "properties": {
     "name": {
@@ -8,7 +8,10 @@
     },
     "dueDate": {
       "type": "string"
-    }
+    },
+    "attachementUrl": {
+      "type": "string"
+    }    
   },
   "required": [
     "name",
