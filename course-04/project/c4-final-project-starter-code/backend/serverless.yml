@@ -89,7 +89,7 @@ functions:
           path: todos
           cors: true
           authorizer: Auth
-          reqValidatorName: RequestBodyValidator
+          reqValidatorName: onlyBody
           documentation:
             summary: Create a new todo
             description: Create a new todo
@@ -114,7 +114,7 @@ functions:
           path: todos/{todoId}
           cors: true
           authorizer: Auth
-          reqValidatorName: RequestBodyValidator
+          reqValidatorName: onlyBody
           documentation:
             summary: Update an todo
             description: Update an todo
@@ -182,7 +182,7 @@ resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
     # TODO: Fill the properties
     # Feel free to change the names as you like. 
-    RequestBodyValidator:
+    onlyBody:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
         Name: 'request-body-validator'
