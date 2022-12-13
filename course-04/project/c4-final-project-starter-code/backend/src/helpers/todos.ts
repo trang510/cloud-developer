@@ -25,10 +25,9 @@ export async function createTodo(userId: string, newTodo: CreateTodoRequest): Pr
     userId,
     todoId: uuid.v4(),
     createdAt: new Date().toISOString(),
-    name: newTodo.name || 'New Todo',
-    dueDate: new Date(Date.parse(newTodo.dueDate)).toISOString(),
     done: false,
-    attachmentUrl: 'default'
+    attachmentUrl: 'default',
+    ...newTodo
   }
   return await todoAccess.createTodo(newItem)
 }
@@ -63,7 +62,9 @@ export async function updateAttachmentUrl(todoId: string, attachmentId: string){
   if (!item)
     throw new Error('Todo not found')
 
-  await todoAccess.updateAttachmentUrl(todoId, attachmentId)
+  const attachmentUrl = await todosStorage.getAttachmentUrl(attachmentId)
+
+  await todoAccess.updateAttachmentUrl(todoId, attachmentUrl)
 }
 
 export async function generateUploadUrl(attachmentId: string): Promise<string> {
