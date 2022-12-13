@@ -5,12 +5,14 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
-import * as createError from 'http-errors'
+// import * as createError from 'http-errors'
 import { TodoUpdate } from '../models/TodoUpdate'
+import { TodosStorage } from './attachmentUtils'
 
 // TODO: Implement businessLogic
 const logger = createLogger('todos')
 const todoAccess = new TodoAccess()
+const todosStorage = new TodosStorage()
 
 export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
   logger.info(`Get all todos for user ${userId}`)
@@ -53,16 +55,18 @@ export async function deleteTodo(todoId: string) {
     todoAccess.deleteTodo(todoId)
 }
 
-export async function getUploadUrl(todoId: string): Promise<string> {
-  logger.info(`Getting Upload Url todo ${todoId}`)
+export async function updateAttachmentUrl(todoId: string, attachmentId: string){
+  logger.info(`Getting upload url todo ${todoId}`)
 
   const item = await todoAccess.getTodo(todoId)
 
   if (!item)
     throw new Error('Todo not found')
 
-  const imageId = uuid.v4()  
-  const uploadUrl = await todoAccess.getUploadUrl(todoId, imageId)
+  await todoAccess.updateAttachmentUrl(todoId, attachmentId)
+}
 
-  return uploadUrl
+export async function generateUploadUrl(attachmentId: string): Promise<string> {
+  logger.info(`Generating upload url for attachment ${attachmentId}`)
+  return await todosStorage.getUploadUrl(attachmentId)
 }

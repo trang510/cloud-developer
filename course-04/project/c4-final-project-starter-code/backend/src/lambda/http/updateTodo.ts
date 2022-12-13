@@ -6,7 +6,7 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { updateTodo } from '../../helpers/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { getUserId } from '../utils'
+// import { getUserId } from '../utils'
 import { createLogger } from '../../utils/logger'
 
 const logger = createLogger('updateTodo')
@@ -23,7 +23,7 @@ export const handler = middy(
       body: JSON.stringify({
       })
     }
-)
+  })
 
 handler
   .use(httpErrorHandler())
